@@ -1,0 +1,49 @@
+@import url("./header.css");
+@import url("./footer.css");
+
+/* Variables */
+:root{
+    --primary-color: #000021;
+    --secondary-color: #0583DE;
+}
+/* --------------------------------------------------- */
+
+
+
+
+
+
+/* Reset Styling */
+html{
+    font-size: 100%;
+    line-height: 1.6;
+    letter-spacing: .1rem;
+}
+
+*, *::before, *::after{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    color: #ffffff;
+}
+
+body{
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+/* --------------------------------------------------- */
+
+
+
+
+
+
+/* Typography */
+img{
+    width: 100%;
+}
+/* --------------------------------------------------- */

@@ -1,0 +1,72 @@
+@import url("./styles.css");
+
+/* Hero Section */
+.hero{
+    width: 100%;
+    height: 60vh;
+    background: url("./media/images/image1.jpg") no-repeat center center/cover;
+}
+
+@media only screen and (min-width: 700px) {
+    .hero{
+        height: 100vh;
+    }
+}
+
+.hero .hero-overlay{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    background-color: #00002199;
+}
+
+.hero-overlay .hero-title{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-title span{
+    font-size: .5em;
+    font-weight: 100;
+}
+
+@media only screen and (min-width: 700px) {
+    .hero-overlay .hero-title{
+        font-size: 3em;
+    }
+    
+    .hero-title span{
+        font-size: .4em;
+    }
+}
+
+.hero-overlay .hero-btn{
+    margin-top: 2.5rem;
+    background-color: var(--secondary-color);
+    padding: .1rem 1rem;
+    border-radius: 5rem;
+    font-weight: bold;
+    transition: all .5s ease-in-out;
+}
+
+@media only screen and (min-width: 700px) {
+    .hero-overlay .hero-btn{
+        font-size: 1.5em;
+        padding: .1rem 2.5rem;
+        margin-top: 4rem;
+    }
+}
+
+.hero-overlay .hero-btn:hover,
+.hero-overlay .hero-btn:active{
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+/* --------------------------------------------------- */
