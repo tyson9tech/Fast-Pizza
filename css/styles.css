@@ -4,7 +4,8 @@
 /* Variables */
 :root{
     --primary-color: #000021;
-    --secondary-color: #0583DE;
+    --secondary-color: #077fff;
+    --gray-color: #ffffff;
 }
 /* --------------------------------------------------- */
 
@@ -27,7 +28,7 @@ html{
     text-decoration: none;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-    color: #ffffff;
+    color: var(--gray-color);
 }
 
 body{

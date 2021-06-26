@@ -3,8 +3,7 @@
 /* Hero Section */
 .hero{
     width: 100%;
-    height: 60vh;
-    background: url("./media/images/image1.jpg") no-repeat center center/cover;
+    height: 70vh;
 }
 
 @media only screen and (min-width: 700px) {
@@ -21,7 +20,6 @@
     width: 100%;
     height: 100%;
     padding: 2rem;
-    background-color: #00002199;
 }
 
 .hero-overlay .hero-title{
@@ -30,26 +28,32 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: .5rem auto;
+    text-shadow: .1rem .1rem .1rem var(--primary-color);
+    color: var(--gray-color);
 }
 
 .hero-title span{
-    font-size: .5em;
-    font-weight: 100;
+    font-size: .6em;
+    color: var(--gray-color);
+    opacity: .8;
 }
 
 @media only screen and (min-width: 700px) {
     .hero-overlay .hero-title{
-        font-size: 3em;
+        color: var(--gray-color);
+        font-size: 2.5em;
     }
     
     .hero-title span{
+        color: var(--gray-color);
         font-size: .4em;
     }
 }
 
 .hero-overlay .hero-btn{
     margin-top: 2.5rem;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     padding: .1rem 1rem;
     border-radius: 5rem;
     font-weight: bold;
@@ -58,15 +62,14 @@
 
 @media only screen and (min-width: 700px) {
     .hero-overlay .hero-btn{
-        font-size: 1.5em;
-        padding: .1rem 2.5rem;
+        font-size: 1.25em;
+        padding: .1rem 1.2rem;
         margin-top: 4rem;
     }
 }
 
 .hero-overlay .hero-btn:hover,
 .hero-overlay .hero-btn:active{
-    background-color: var(--primary-color);
     color: var(--secondary-color);
 }
 /* --------------------------------------------------- */
