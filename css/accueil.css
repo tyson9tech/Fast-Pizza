@@ -22,7 +22,7 @@
     padding: 2rem;
 }
 
-.hero-overlay .hero-title{
+/* .hero-overlay .hero-title{
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -31,7 +31,7 @@
     margin: .5rem auto;
     text-shadow: .1rem .1rem .1rem var(--primary-color);
     color: var(--gray-color);
-}
+} */
 
 .hero-title span{
     font-size: .6em;

@@ -10,16 +10,16 @@
 			href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
 			rel="stylesheet"
 		/>
-		<link rel="icon" href="./css/media/images/FastPizzalogo.png" />
-		<title>Accueil | Fast Pizza</title>
-		<link type="text/css" rel="stylesheet" href="./css/accueil.css" />
+		<link rel="icon" href="../css/media/images/FastPizzalogo.png" />
+		<title>Maisons De Pizzas | Fast Pizza</title>
+		<link type="text/css" rel="stylesheet" href="../css/maisons.css" />
+		<script src="../js/main.js" defer></script>
 	</head>
-
 	<body>
 		<header class="header">
-			<a href="./index.html" class="logoArea">
+			<a href="../index.html" class="logoArea">
 				<img
-					src="./css/media/images/FastPizzalogo.png"
+					src="../css/media/images/FastPizzalogo.png"
 					alt="Logo"
 					class="logo"
 				/>
@@ -27,45 +27,27 @@
 			<nav class="nav">
 				<ul class="menu">
 					<li class="menuItem">
-						<a href="./index.html" class="menuLink">Accueil</a>
+						<a href="../index.html" class="menuLink">Accueil</a>
 					</li>
 					<li class="menuItem">
-						<a href="./pages/pizzas.html" class="menuLink"
-							>Pizzas</a
-						>
+						<a href="./pizzas.html" class="menuLink">Pizzas</a>
 					</li>
 					<li class="menuItem">
-						<a href="./pages/maisons.html" class="menuLink"
+						<a href="./maisons.html" class="menuLink"
 							>Maisons De Pizzas</a
 						>
 					</li>
 					<li class="menuItem">
-						<a href="./pages/loisirs.html" class="menuLink"
-							>Loisirs</a
-						>
+						<a href="./loisirs.html" class="menuLink">Loisirs</a>
 					</li>
 					<li class="menuItem">
-						<a href="./pages/inscription.html" class="menuLink"
+						<a href="./inscription.html" class="menuLink"
 							>S'inscrire</a
 						>
 					</li>
 				</ul>
 			</nav>
 		</header>
-
-		<div class="hero">
-			<div class="hero-overlay">
-				<h1 class="hero-title title">
-					Bienvenue sur Fast Pizza,
-					<span
-						>Ici, vous trouverez tous les type de pizzas que vous
-						souhaitez.</span
-					>
-				</h1>
-
-				<a href="./pages/maisons.html" class="hero-btn">Voir Plus</a>
-			</div>
-		</div>
 
 		<footer class="footer">
 			<div class="footer-infos">
@@ -90,19 +72,19 @@
 					<div class="social-icons">
 						<a href="#">
 							<img
-								src="./css/media/icons/facebook.png"
+								src="../css/media/icons/facebook.png"
 								alt="Facebook"
 							/>
 						</a>
 						<a href="#">
 							<img
-								src="./css/media/icons/instagram.png"
+								src="../css/media/icons/instagram.png"
 								alt="Instagram"
 							/>
 						</a>
 						<a href="#">
 							<img
-								src="./css/media/icons/twitter.png"
+								src="../css/media/icons/twitter.png"
 								alt="Twitter"
 							/>
 						</a>
@@ -113,31 +95,5 @@
 				Copyright &copy; Fast Pizza 2021-2022 All Right Reserved
 			</h3>
 		</footer>
-
-		<script type="text/JavaScript">
-			         //Functions
-			function randNumber(min, max) {
-				return parseInt(Math.random() * (max - min) + min);
-			}
-
-			function changeHeroImage() {
-				let numberOfImage = 15;
-				document.querySelector(".hero").style.cssText = `
-			        transition: all .15s ease-in-out;
-			        background: linear-gradient(rgba(0, 0, 0, 0.7),
-			        rgba(0, 0, 0, 0.7)),
-			        url(./css/media/images/image${randNumber(
-						1,
-						numberOfImage
-					)}.jpg) no-repeat center center/cover;
-			    `;
-			}
-
-			// Function Called
-			changeHeroImage();
-			setInterval(() => {
-				changeHeroImage();
-			}, 15000);
-		</script>
 	</body>
 </html>
