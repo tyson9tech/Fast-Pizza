@@ -62,4 +62,13 @@ img{
     text-shadow: .1rem .1rem .1rem var(--primary-color);
     color: var(--gray-color);
 }
+
+.btn{
+    margin-top: 2.5rem;
+    background-color: var(--primary-color);
+    padding: .1rem 1rem;
+    border-radius: 5rem;
+    font-weight: bold;
+    transition: all .5s ease-in-out;
+}
 /* --------------------------------------------------- */
