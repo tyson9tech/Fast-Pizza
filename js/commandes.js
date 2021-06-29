@@ -2,11 +2,15 @@ var globalPrice = 0;
 
 // Classe Pizza
 class Pizza {
-	constructor(id, img, nom, prix) {
+	constructor(id, img, nom, prix, size) {
 		this.theId = id;
 		this.theImg = img;
 		this.theName = nom;
-		this.thePrice = prix;
+		this.theSize = size;
+
+		this.mediumPrice = prix;
+		this.smallPrice = prix / 2;
+		this.largePrice = prix * 2;
 	}
 
 	get theId() {
@@ -18,8 +22,17 @@ class Pizza {
 	get theName() {
 		return this.nom;
 	}
-	get thePrice() {
-		return this.prix;
+	get theSize() {
+		return this.size;
+	}
+	get theSmaallPrice() {
+		return this.smallPrice;
+	}
+	get theMediumPrice() {
+		return this.mediumPrice;
+	}
+	get theLargePrice() {
+		return this.largePrice;
 	}
 
 	set theId(id) {
@@ -31,21 +44,43 @@ class Pizza {
 	set theName(nom) {
 		this.nom = nom;
 	}
-	set thePrice(prix) {
-		this.prix = prix;
+	set theSize(size) {
+		this.size = size;
+	}
+	set theSmaallPrice(prix) {
+		this.smallPrice = prix;
+	}
+	set theMediumPrice(prix) {
+		this.mediumPrice = prix;
+	}
+	set theLargePrice(prix) {
+		this.largePrice = prix;
 	}
 }
 
 //Classe des pizza qui sont deja commande
 class PizzaCommanded extends Pizza {
-	constructor(id, img, nom, prix, nombre = 1) {
-		super(id, img, nom, prix);
+	constructor(id, img, nom, prix, size, nombre = 1) {
+		super(id, img, nom, prix, size);
 		this.theNumber = nombre;
+		this.pricePerSize = prix;
 	}
 
 	get theNumber() {
 		return this.nombre;
 	}
+
+	get thePricePerSize() {
+		if (this.size === "small") {
+			this.pricePerSize = this.smallPrice;
+		} else if (this.size === "medium") {
+			this.pricePerSize = this.mediumPrice;
+		} else {
+			this.pricePerSize = this.largePrice;
+		}
+		return this.pricePerSize;
+	}
+
 	set theNumber(nombre) {
 		this.nombre = nombre;
 	}
@@ -98,11 +133,11 @@ class Store {
 		localStorage.setItem("pizzas", JSON.stringify(pizzas));
 	}
 
-	static removePizzaCommanded(idPizza) {
+	static removePizzaCommanded(idPizza, sizePizza) {
 		let pizzas = Store.listeDesPizzasCommandes();
 
 		pizzas.forEach((pizza, index) => {
-			if (pizza.id === idPizza) {
+			if (pizza.id === idPizza && pizza.size === sizePizza) {
 				pizzas.splice(index, 1);
 			}
 		});
@@ -110,11 +145,11 @@ class Store {
 		localStorage.setItem("pizzas", JSON.stringify(pizzas));
 	}
 
-	static updatePizzaCommanded(idPizza, nombre) {
+	static updatePizzaCommanded(idPizza, nombre, sizePizza) {
 		let pizzas = Store.listeDesPizzasCommandes();
 
-		pizzas.forEach((pizza, index) => {
-			if (pizza.id === idPizza) {
+		pizzas.forEach((pizza) => {
+			if (pizza.id === idPizza && pizza.size === sizePizza) {
 				pizza.nombre = nombre;
 			}
 		});
@@ -150,13 +185,50 @@ class InterfaceUtilisateur {
                 <img src=${pizzaDisponible.theImg} alt=${pizzaDisponible.theName}>
                 <p class="pizzaNom">${pizzaDisponible.theName}</p>
                 <p class="pizzaPrix">
-                <span class="pizzaMontant">${pizzaDisponible.thePrice}</span>HTG
+                <span class="pizzaMontant">${pizzaDisponible.theMediumPrice}</span>HTG
                 </p>
+				<select class="pizzaSize">
+					<option value="small">Small</option>
+					<option value="medium" selected>Medium</option>
+					<option value="large">Large</option>
+				</select>
                 <button class="bouttonCommanderPizza">Commander</button> 
             </div>
         `
 			)
 			.join("");
+
+		//Changer le prix du pizza en fonction de la dimension
+		const pizzaSizes = document.querySelectorAll(".pizzaSize");
+
+		pizzaSizes.forEach((pizzaSize) => {
+			pizzaSize.addEventListener("change", (event) => {
+				const { target } = event;
+
+				const divToChangePrice = target.parentNode;
+
+				const pizzaDivToChangePriceId = parseInt(
+					divToChangePrice.getAttribute("data-id")
+				);
+
+				listeDesPizzaDisponibles.forEach((pizzaDisponible) => {
+					if (pizzaDisponible.theId === pizzaDivToChangePriceId) {
+						pizzaDisponible.theSize = target.value;
+
+						const divPrice =
+							target.previousElementSibling.firstElementChild;
+
+						if (pizzaDisponible.theSize === "small") {
+							divPrice.textContent = pizzaDisponible.smallPrice;
+						} else if (pizzaDisponible.theSize === "large") {
+							divPrice.textContent = pizzaDisponible.largePrice;
+						} else {
+							divPrice.textContent = pizzaDisponible.mediumPrice;
+						}
+					}
+				});
+			});
+		});
 
 		// Ajouter un pizza dans la carte d'achat
 		const pizzaDivDisponibles = document.querySelectorAll(
@@ -179,24 +251,39 @@ class InterfaceUtilisateur {
 					const pizzaACommanderPrix = parseFloat(
 						pizzaACommander.children[2].children[0].innerText
 					);
+					const pizzaACommanderSize =
+						pizzaACommander.children[3].value;
 
 					listeDesPizzasCommandes = Store.listeDesPizzasCommandes();
 
-					let pizzasId = listeDesPizzasCommandes.map(
-						(lePizza) => lePizza.id
-					);
+					let pizzaCommandeAlready = false;
 
-					if (pizzasId.includes(pizzaACommanderId)) {
-						alert("This Pizza Has Been Already Commanded");
+					listeDesPizzasCommandes.forEach((pizza) => {
+						if (
+							pizza.id === pizzaACommanderId &&
+							pizza.size === pizzaACommanderSize
+						) {
+							pizzaCommandeAlready = true;
+						} else {
+							pizzaCommandeAlready = false;
+						}
+					});
+
+					if (pizzaCommandeAlready) {
+						alert(
+							"Le meme type de pizza ne peut pas ajouter plusieurs fois."
+						);
 					} else {
 						Store.ajouterPizzaCommande(
 							new PizzaCommanded(
 								pizzaACommanderId,
 								pizzaACommanderImgSrc,
 								pizzaACommanderNom,
-								pizzaACommanderPrix
+								pizzaACommanderPrix,
+								pizzaACommanderSize
 							)
 						);
+						alert("Le pizza ete ajoute avec succes.");
 						InterfaceUtilisateur.listerLesPizzasCommandes();
 					}
 				}
@@ -221,7 +308,8 @@ class InterfaceUtilisateur {
 			divDesPizzasDejaCommande.innerHTML = listeDesPizzasCommandes
 				.map((pizzaDejaCommande) => {
 					globalPrice +=
-						pizzaDejaCommande.prix * pizzaDejaCommande.nombre;
+						pizzaDejaCommande.pricePerSize *
+						pizzaDejaCommande.nombre;
 					return `
                     <div data-id=${pizzaDejaCommande.id} class="pizzaDivCommande">
                         <div class="pizzaCommanderInfo">
@@ -230,7 +318,13 @@ class InterfaceUtilisateur {
                         </div>
                         <div class="pizzaCommanderInfosPrix">
                             <p class="pizzaCommanderInfosPrixLabel">Prix</p>
-                            <p class="pizzaCommanderInfosPrixTetxt"><span class="pizzaCommanderInfosPrixTextMontant">${pizzaDejaCommande.prix}</span> HTG</p>
+                            <p class="pizzaCommanderInfosPrixTetxt">
+								<span class="pizzaCommanderInfosPrixTextMontant">${pizzaDejaCommande.pricePerSize}</span> HTG
+							</p>
+                        </div>
+						<div class="pizzaCommanderInfosSize">
+                            <p class="pizzaCommanderInfosSizeLabel">Size</p>
+                            <p class="pizzaCommanderInfosSizeTetxt">${pizzaDejaCommande.size}</p>
                         </div>
                         <div class="pizzaCommanderInfosNombre">
                             <p class="pizzaCommanderInfosNombreLabel">Nombre</p>
@@ -282,25 +376,22 @@ class InterfaceUtilisateur {
 					const { target } = event;
 
 					const lePizzaASupprimmer = target.parentNode;
-
-					let prix = parseFloat(
-						lePizzaASupprimmer.querySelector(
-							".pizzaCommanderInfosPrixTextMontant"
-						).innerText
-					);
-					let nombre = parseFloat(
-						lePizzaASupprimmer.querySelector(
-							".pizzaCommanderInfosNombreValeur"
-						).value
-					);
+					const taille =
+						lePizzaASupprimmer.children[2].children[1].innerText;
 
 					let id = parseInt(
 						lePizzaASupprimmer.getAttribute("data-id")
 					);
 
 					listeDesPizzasCommandes.forEach((pizzaDivDisponible) => {
-						if (pizzaDivDisponible.id === id) {
-							Store.removePizzaCommanded(pizzaDivDisponible.id);
+						if (
+							pizzaDivDisponible.id === id &&
+							pizzaDivDisponible.size === taille
+						) {
+							Store.removePizzaCommanded(
+								pizzaDivDisponible.id,
+								pizzaDivDisponible.size
+							);
 							InterfaceUtilisateur.listerLesPizzasCommandes();
 							totalprixdiv.querySelector(
 								".prix"
@@ -321,6 +412,9 @@ class InterfaceUtilisateur {
 
 					const leCommandeAModifier = target.parentNode.parentNode;
 
+					const taille =
+						leCommandeAModifier.children[2].children[1].innerText;
+
 					let nombre = leCommandeAModifier.querySelector(
 						".pizzaCommanderInfosNombreValeur"
 					).value;
@@ -331,12 +425,16 @@ class InterfaceUtilisateur {
 					);
 
 					listeDesPizzasCommandes.forEach((pizzaDivDisponible) => {
-						if (pizzaDivDisponible.id === id) {
+						if (
+							pizzaDivDisponible.id === id &&
+							pizzaDivDisponible.size === taille
+						) {
 							pizzaDivDisponible.nombre =
 								nouveauNombre <= 0 ? 1 : nouveauNombre;
 							Store.updatePizzaCommanded(
 								pizzaDivDisponible.id,
-								pizzaDivDisponible.nombre
+								pizzaDivDisponible.nombre,
+								pizzaDivDisponible.size
 							);
 							InterfaceUtilisateur.listerLesPizzasCommandes();
 							totalprixdiv.querySelector(".prix").innerHTML =

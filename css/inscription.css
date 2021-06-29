@@ -4,8 +4,8 @@
     display: flex;
     flex-direction: column;
     width: 100vw;
-    min-height: 100vh;
-    padding: 3rem 1rem;
+    min-height: 70vh;
+    padding: 2rem 1rem;
     font-size: 1.2em;
 }
 
@@ -47,6 +47,7 @@ form{
     flex-direction: column;
     padding: .5rem;
     background-color: var(--primary-color);
+    border-radius: 0 0 1rem 1rem;
 }
 
 .signup-form h3,

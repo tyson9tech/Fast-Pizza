@@ -28,7 +28,7 @@ html{
     text-decoration: none;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-    color: var(--gray-color);
+    color: var(--secondary-color);
 }
 
 body{
@@ -37,7 +37,7 @@ body{
     width: 100vw;
     min-height: 100vh;
     overflow-x: hidden;
-    background-color: var(--primary-color);
+    background-color: var(--gray-color);
 }
 /* --------------------------------------------------- */
 
@@ -59,7 +59,7 @@ img{
     align-items: center;
     justify-content: center;
     margin: .5rem auto;
-    text-shadow: .1rem .1rem .1rem var(--primary-color);
+    /* text-shadow: .1rem .1rem .1rem var(--primary-color); */
     color: var(--gray-color);
 }
 
