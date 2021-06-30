@@ -5,6 +5,14 @@ class Client {
 		this.password = password;
 		this.connect = connect;
 	}
+
+	get theConnect() {
+		return connect;
+	}
+
+	set theConnect(connect) {
+		this.connect;
+	}
 }
 
 //Sing Up Clients
@@ -69,6 +77,16 @@ sgnFrm.addEventListener("submit", (e) => {
 						true
 					)
 				);
+
+				clients.forEach((client) => {
+					if (
+						client.username !== data.get("username") &&
+						client.password !== data.get("email")
+					) {
+						client.connect = false;
+					}
+				});
+
 				localStorage.setItem("Client", JSON.stringify(clients));
 				alert("You have been added successfully");
 			}
@@ -102,24 +120,41 @@ logFrm.addEventListener("submit", (e) => {
 			alert("Please create an account before trying to connect");
 		} else {
 			let clientExiste = false;
+			let clientConnected = false;
 
 			clients.forEach((client) => {
 				if (
 					client.username === data.get("usernameLog") &&
-					client.password === data.get("passwordLog") &&
-					client.connect === false
+					client.password === data.get("passwordLog")
 				) {
 					clientExiste = true;
-					client.connect = true;
+
+					if (client.connect === true) {
+						clientConnected = true;
+					} else {
+						client.connect = true;
+					}
 				}
 			});
 
 			if (!clientExiste) {
-				alert(
-					"Username or password inccorrect or you're already connected"
-				);
+				alert("Username or password inccorrect");
 			} else {
-				alert("You have been connected successfully");
+				if (clientConnected) {
+					alert("You're already connected");
+				} else {
+					clients.forEach((client) => {
+						if (
+							client.username !== data.get("usernameLog") &&
+							client.password !== data.get("passwordLog")
+						) {
+							client.connect = false;
+						}
+					});
+
+					localStorage.setItem("Client", JSON.stringify(clients));
+					alert("You have been connected successfully");
+				}
 			}
 		}
 	} else {

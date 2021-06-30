@@ -156,11 +156,45 @@ class Store {
 
 		localStorage.setItem("pizzas", JSON.stringify(pizzas));
 	}
+
+	static listeDesClients() {
+		let clients;
+
+		if (localStorage.getItem("Client") === null) {
+			clients = [];
+		} else {
+			clients = JSON.parse(localStorage.getItem("Client"));
+		}
+
+		return clients;
+	}
 }
 
 // Classe interface utilisateur
 class InterfaceUtilisateur {
 	static displayPizzasToCommand() {
+		let clients = Store.listeDesClients();
+
+		let currentClient = clients.filter((client) => client.connect);
+
+		document.querySelector(".lgOutBtn").addEventListener("click", () => {
+			let deconnected = false;
+
+			clients.forEach((client) => {
+				if (client.connect) {
+					client.connect = false;
+					deconnected = true;
+				}
+			});
+
+			if (!deconnected) {
+				alert("You're already deconnected");
+			} else {
+				alert("You have been deconnected succesfully");
+				localStorage.setItem("Client", JSON.stringify(clients));
+			}
+		});
+
 		document
 			.querySelector(".bouttonCarte")
 			.addEventListener("click", () => {
@@ -239,52 +273,61 @@ class InterfaceUtilisateur {
 			pizzaDivDisponible.addEventListener("click", (event) => {
 				const { target } = event;
 				if (target.classList.contains("bouttonCommanderPizza")) {
-					const pizzaACommander = target.parentNode;
+					clients = Store.listeDesClients();
 
-					const pizzaACommanderId = parseInt(
-						pizzaACommander.getAttribute("data-id")
-					);
-					const pizzaACommanderImgSrc =
-						pizzaACommander.children[0].getAttribute("src");
-					const pizzaACommanderNom =
-						pizzaACommander.children[1].innerText;
-					const pizzaACommanderPrix = parseFloat(
-						pizzaACommander.children[2].children[0].innerText
-					);
-					const pizzaACommanderSize =
-						pizzaACommander.children[3].value;
-
-					listeDesPizzasCommandes = Store.listeDesPizzasCommandes();
-
-					let pizzaCommandeAlready = false;
-
-					listeDesPizzasCommandes.forEach((pizza) => {
-						if (
-							pizza.id === pizzaACommanderId &&
-							pizza.size === pizzaACommanderSize
-						) {
-							pizzaCommandeAlready = true;
-						} else {
-							pizzaCommandeAlready = false;
-						}
-					});
-
-					if (pizzaCommandeAlready) {
-						alert(
-							"Le meme type de pizza ne peut pas ajouter plusieurs fois."
-						);
+					if (clients.length === 0) {
+						alert("You must connected to command a pizza");
 					} else {
-						Store.ajouterPizzaCommande(
-							new PizzaCommanded(
-								pizzaACommanderId,
-								pizzaACommanderImgSrc,
-								pizzaACommanderNom,
-								pizzaACommanderPrix,
-								pizzaACommanderSize
-							)
+						const pizzaACommander = target.parentNode;
+
+						const pizzaACommanderId = parseInt(
+							pizzaACommander.getAttribute("data-id")
 						);
-						alert("Le pizza ete ajoute avec succes.");
-						InterfaceUtilisateur.listerLesPizzasCommandes();
+						const pizzaACommanderImgSrc =
+							pizzaACommander.children[0].getAttribute("src");
+						const pizzaACommanderNom =
+							pizzaACommander.children[1].innerText;
+						const pizzaACommanderPrix = parseFloat(
+							pizzaACommander.children[2].children[0].innerText
+						);
+						const pizzaACommanderSize =
+							pizzaACommander.children[3].value;
+
+						listeDesPizzasCommandes =
+							Store.listeDesPizzasCommandes();
+
+						let pizzaCommandeAlready = false;
+
+						listeDesPizzasCommandes.forEach((pizza) => {
+							if (
+								pizza.id === pizzaACommanderId &&
+								pizza.size === pizzaACommanderSize
+							) {
+								pizzaCommandeAlready = true;
+							} else {
+								pizzaCommandeAlready = false;
+							}
+						});
+
+						if (pizzaCommandeAlready) {
+							alert(
+								`Desole ${currentClient[0].username}, le meme type de pizza ne peut pas ajouter plusieurs fois.`
+							);
+						} else {
+							Store.ajouterPizzaCommande(
+								new PizzaCommanded(
+									pizzaACommanderId,
+									pizzaACommanderImgSrc,
+									pizzaACommanderNom,
+									pizzaACommanderPrix,
+									pizzaACommanderSize
+								)
+							);
+							alert(
+								`Felicitation ${currentClient[0].username}, le pizza ete commande avec succes.`
+							);
+							InterfaceUtilisateur.listerLesPizzasCommandes();
+						}
 					}
 				}
 			});
