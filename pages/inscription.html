@@ -13,7 +13,11 @@
 		<link rel="icon" href="../css/media/images/FastPizzalogo.png" />
 		<title>S'inscrire | Fast Pizza</title>
 		<link type="text/css" rel="stylesheet" href="../css/inscription.css" />
-		<script src="../js/main.js" defer></script>
+		<script
+			type="text/JavaScript"
+			src="../js/inscription.js"
+			defer
+		></script>
 	</head>
 	<body>
 		<header class="header">
@@ -54,7 +58,7 @@
 			<div class="signup-form">
 				<h3 class="formTitle tittle">S'inscrire</h3>
 
-				<form method="post" class="sgnFrm">
+				<form method="get" class="sgnFrm">
 					<div class="username-area">
 						<label for="username">Pseudo</label>
 						<input type="text" id="username" />
@@ -84,15 +88,15 @@
 			<div class="login-form">
 				<h3 class="formTitle tittle">Connecter</h3>
 
-				<form method="post">
+				<form method="get" class="logFrm">
 					<div class="username-area">
 						<label for="username">Username</label>
-						<input type="text" id="username" />
+						<input type="text" id="usernameLog" />
 					</div>
 
 					<div class="password-area">
 						<label for="password">Mot de passe</label>
-						<input type="text" id="password" />
+						<input type="password" id="passwordLog" />
 					</div>
 
 					<button class="loginBtn btn">Connecter</button>
