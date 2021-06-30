@@ -2,18 +2,40 @@
 
 .maisonsDiv{
     width: 100%;
-    height: 100vh;
-    background-color: rgb(157, 157, 199);
+    min-height: 100vh;
     padding: 1rem;
     display:flex;
     flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
-
-    
+    background-color: #9d9dc7;
 }
-.maisons{
-    width: 90%;
-    height: 30vh;
-    background-color: blanchedalmond;
+
+.maisonsDiv .maisons{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    min-height: 30vh;
+    flex-wrap: wrap;
+}
+
+.maisons .maison{
+    width: 20rem;
+    height: 20rem;
+    display: flex;
+    margin: 1rem;
+}
+
+.imageMaison{
+    width: 100%;
+    object-fit: fill;
+}
+
+.imageMaison img{
+    width: 100%;
+    height: 80%;
+}
+
+.imageMaison p{
+    text-align: center;
+    color: var(--primary-color);
 }
